@@ -32,7 +32,7 @@ public class DbConnection {
             this.connection = DriverManager.getConnection(URL,username,password);
             LOG.info("Conexión a PosttgresSql establecida con éxito");
         } catch (ClassNotFoundException| SQLException e) {
-            LOG.warning("Error al establecer la coneción:" + e.getMessage());
+            LOG.log(Level.WARNING, "Error al establecer la coneci\u00f3n:{0}", e.getMessage());
         }
     }
     
@@ -53,7 +53,8 @@ public class DbConnection {
                 connection.close();
                 LOG.info("Conxion a postgreSQL cerrada con éxito.");
             }catch (SQLException e){
-                LOG.warning("Error al cerrar la conexión:" + e.getMessage());
+                LOG.log(Level.WARNING, "Error al cerrar la conexi\u00f3n:{0}", e.getMessage());
+                
             }
         }
     }
