@@ -21,8 +21,6 @@ public class DbConnection {
     
     private String username = "TesloDB";
     private String password = "MyScr3tPassWord@as2";
-    private int dbPort = 5432;
-    private String dbName="Personas";
     private static final String URL = "jdbc:postgresql://localhost:5432/Personas";
     
      private static final Logger LOG = Logger.getLogger(DbConnection.class.getName());
