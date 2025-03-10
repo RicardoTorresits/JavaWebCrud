@@ -26,14 +26,8 @@ public class DbConnection {
      private static final Logger LOG = Logger.getLogger(DbConnection.class.getName());
 
 
-    private DbConnection(){
-        try {
-            Class.forName("org.postgresql.Drive");
-            this.connection = DriverManager.getConnection(URL,username,password);
-            LOG.info("Conexión a PosttgresSql establecida con éxito");
-        } catch (ClassNotFoundException| SQLException e) {
-            LOG.log(Level.WARNING, "Error al establecer la coneci\u00f3n:{0}", e.getMessage());
-        }
+    DbConnection(){
+        
     }
     
     public static DbConnection getInstance(){
@@ -43,7 +37,14 @@ public class DbConnection {
         return instance;
     }
     
-    public Connection getConnection(){
+    public Connection getConnection() throws SQLException{
+        try {
+            Class.forName("org.postgresql.Drive");
+            this.connection = DriverManager.getConnection(URL,username,password);
+            LOG.info("Conexión a PosttgresSql establecida con éxito");
+        } catch (ClassNotFoundException e) {
+            LOG.log(Level.WARNING, "Error al establecer la coneci\u00f3n:{0}", e.getMessage());
+        }
         return connection;
     }
     
