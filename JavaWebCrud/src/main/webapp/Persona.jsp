@@ -83,7 +83,7 @@
                 <i class="fas fa-user-circle me-2"></i>Información de la Persona
             </div>
             <div class="card-body">
-                <form action="SvPersona" method="put">
+                <form id="formActualizarPersona">
                     <input type="hidden" name="id" value="<%= persona.getId() %>">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -103,7 +103,7 @@
                         </li>
                     </ul>
                     <div class="mt-4 d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary" onclick="actualizarPersona()">
                             <i class="fas fa-sync-alt me-2"></i>Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" onclick="eliminarPersona(<%= persona.getId() %>)">
@@ -126,17 +126,46 @@
 
     <!-- Bootstrap JS y dependencias -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Script para eliminar persona -->
+    <!-- Script para actualizar y eliminar persona -->
     <script>
+        function actualizarPersona() {
+            const form = document.getElementById("formActualizarPersona");
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch("SvPersona?id=<%= persona.getId() %>", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Persona actualizada correctamente.");
+                    window.location.href = "SvPersona"; // Redirigir a la lista de personas
+                } else {
+                    alert("Error al actualizar la persona.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error al actualizar la persona.");
+            });
+        }
+
         function eliminarPersona(id) {
             if (confirm("¿Estás seguro de que deseas eliminar esta persona?")) {
-                fetch(`SvPersona?id=${persona.getId() }`, {
+                fetch(`SvPersona?id=${id}`, {
                     method: 'DELETE',
                 })
                 .then(response => {
                     if (response.ok) {
                         alert("Persona eliminada correctamente.");
-                        window.location.href = "listaPersonas.jsp"; // Redirigir a la lista de personas
+                        window.location.href = "SvPersona"; // Redirigir a la lista de personas
                     } else {
                         alert("Error al eliminar la persona.");
                     }

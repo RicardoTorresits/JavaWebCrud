@@ -70,7 +70,7 @@ public class SvPersona extends HttpServlet {
                 var personas = result.getData();
                 httpsession.setAttribute("ListaPersona", personas);
                 response.sendRedirect("listaPersona.jsp");
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,38 +101,40 @@ public class SvPersona extends HttpServlet {
             Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
-    protected void doPut (HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException{
+    protected void doPut(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         try (Connection conn = db.getConnection()) {
+            String idstr = "";
+            idstr = req.getParameter("id");
+            int id = Integer.valueOf(idstr);
+            if (idstr != null && !idstr.isEmpty()) {
             personaRepository.setConn(conn);
             personaService.setPersonaRepository(personaRepository);
             String nombre = req.getParameter("nombre");
             String edad = req.getParameter("edad");
             String correo = req.getParameter("correo");
-            String idstr = "";
-            idstr = req.getParameter("id");
-            int id= Integer.valueOf(idstr);
             var user = new Persona(nombre, Integer.parseInt(edad), correo);
             user.setId(id);
             personaService.updatePersona(user);
             response.sendRedirect("SvPersona");
-            response.sendRedirect("SvPersona");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException{
-        try (Connection conn = db.getConnection()){
-            personaRepository.setConn(conn);
-            personaService.setPersonaRepository(personaRepository);
+    protected void doDelete(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        try (Connection conn = db.getConnection()) {
             String idstr = "";
             idstr = req.getParameter("id");
-            var result = personaService.deletePersona(Integer.valueOf(idstr));
-            response.sendRedirect("SvPersona");
-            
+            if (idstr != null && !idstr.isEmpty()) {
+                personaRepository.setConn(conn);
+                personaService.setPersonaRepository(personaRepository);
+                personaService.deletePersona(Integer.valueOf(idstr));
+                response.sendRedirect("SvPersona");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
         }
