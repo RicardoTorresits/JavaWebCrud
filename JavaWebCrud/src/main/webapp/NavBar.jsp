@@ -4,7 +4,7 @@
     Author     : it-seekers
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Sistema de Personas</a>
@@ -17,7 +17,7 @@
                     <a class="nav-link" href="listaPersona.jsp">Lista de Personas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="CrearPersona.jsp">Crear Persona</a>
+                    <a class="nav-link" href="${pageContext.servletContext.contextPath}/CrearPersona.jsp">Crear Persona</a>
                 </li>
             </ul>
         </div>

@@ -38,7 +38,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
     @Override
     public void save(Persona persona) throws SQLException {
          
-        String sql = "inset into Persona (nombre,edad,correo,stauts)"
+        String sql = "insert into \"Persona\" (nombre,edad,correo,status)"
                 + "values(?,?,?,'Activo')";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, persona.getNombre());
@@ -53,7 +53,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
 
     @Override
     public void update(Persona persona) throws SQLException {
-         String sql = "update Persona set nombre =?,edad =?,correo =? where id=?";
+         String sql = "update \"Persona\" set nombre =?,edad =?,correo =? where id=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, persona.getNombre());
             ps.setInt(2, persona.getEdad());
@@ -89,7 +89,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
 
     @Override
     public Persona getById(Integer id) throws SQLException {
-        String sql = "select * from Persona where id=?";
+        String sql = "select * from \"Persona\" where id=?";
        
         var persona = new Persona();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -109,7 +109,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
 
     @Override
     public void delete(Integer id) throws SQLException {
-        String sql = "update Persona set status='Eliminado'where id=? and status='Activo'";
+        String sql = "update \"Persona\" set status='Eliminado'where id=? and status='Activo'";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.execute();

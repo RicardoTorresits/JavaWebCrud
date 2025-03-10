@@ -1,4 +1,4 @@
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.mycompany.models.Persona" %>
 
@@ -35,7 +35,7 @@
                         <td><%= persona.getCorreo() %></td>
                         <td><%= persona.getEdad() %></td>
                         <td>
-                            <a href="Persona.jsp?id=<%= persona.getId() %>" class="btn btn-primary btn-sm">Ver Detalle</a>
+                            <a href="SvPersona?id=<%= persona.getId() %>" class="btn btn-primary btn-sm">Ver Detalle</a>
                         </td>
                     </tr>
                     <%

@@ -5,6 +5,7 @@
 package com.mycompany.servlet;
 
 import com.mycompany.models.DbConnection;
+import com.mycompany.models.Persona;
 import com.mycompany.respository.PersonaRepository;
 import com.mycompany.service.PersonaService;
 import jakarta.servlet.ServletException;
@@ -59,16 +60,17 @@ public class SvPersona extends HttpServlet {
             personaRepository.setConn(conn);
             personaService.setPersonaRepository(personaRepository);
             var httpsession = req.getSession();
-            if (idstr != "") {
-               var result = personaService.getPersonas();
-               var personas = result.getData();
-               httpsession.setAttribute("ListaPersona", personas);
-               response.sendRedirect("listaPersona.jsp");
-            }else {
+            if (idstr != null && !idstr.isEmpty()) {
                 var result = personaService.getPersona(Integer.valueOf(idstr));
                 var persona = result.getData();
                 httpsession.setAttribute("persona", persona);
                 response.sendRedirect("Persona.jsp");
+            } else {
+                var result = personaService.getPersonas();
+                var personas = result.getData();
+                httpsession.setAttribute("ListaPersona", personas);
+                response.sendRedirect("listaPersona.jsp");
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,8 +86,56 @@ public class SvPersona extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
 
+        try (Connection conn = db.getConnection()) {
+            personaRepository.setConn(conn);
+            personaService.setPersonaRepository(personaRepository);
+            String nombre = req.getParameter("nombre");
+            String edad = req.getParameter("edad");
+            String correo = req.getParameter("correo");
+            var newUser = new Persona(nombre, Integer.parseInt(edad), correo);
+            personaService.createPersona(newUser);
+            response.sendRedirect("SvPersona");
+        } catch (SQLException ex) {
+            Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    protected void doPut (HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException{
+        try (Connection conn = db.getConnection()) {
+            personaRepository.setConn(conn);
+            personaService.setPersonaRepository(personaRepository);
+            String nombre = req.getParameter("nombre");
+            String edad = req.getParameter("edad");
+            String correo = req.getParameter("correo");
+            String idstr = "";
+            idstr = req.getParameter("id");
+            int id= Integer.valueOf(idstr);
+            var user = new Persona(nombre, Integer.parseInt(edad), correo);
+            user.setId(id);
+            personaService.updatePersona(user);
+            response.sendRedirect("SvPersona");
+            response.sendRedirect("SvPersona");
+        } catch (SQLException ex) {
+            Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException{
+        try (Connection conn = db.getConnection()){
+            personaRepository.setConn(conn);
+            personaService.setPersonaRepository(personaRepository);
+            String idstr = "";
+            idstr = req.getParameter("id");
+            var result = personaService.deletePersona(Integer.valueOf(idstr));
+            response.sendRedirect("SvPersona");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

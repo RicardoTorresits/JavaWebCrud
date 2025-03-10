@@ -7,29 +7,12 @@
 </head>
 <body>
     <!-- Barra de Navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema de Personas</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="listaPersonas.jsp">Lista de Personas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="crearPersona.jsp">Crear Persona</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+     <%@ include file="NavBar.jsp" %>
 
     <!-- Formulario para Crear Persona -->
     <div class="container mt-5">
         <h1 class="text-center mb-4">Crear Nueva Persona</h1>
-        <form action="guardarPersona" method="post" class="needs-validation" novalidate>
+        <form action="SvPersona" method="post" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -51,7 +34,7 @@
                     Por favor, ingresa una edad válida.
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-primary" href="listaPersona.jsp">Guardar</button>
         </form>
     </div>
 
