@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycomopany.servlet;
+package com.mycompany.servlet;
 
 import com.mycompany.models.DbConnection;
 import com.mycompany.respository.PersonaRepository;

@@ -4,7 +4,7 @@
  */
 package com.mycompany.respository;
 
-import com.mycomopany.servlet.SvPersona;
+import com.mycompany.servlet.SvPersona;
 import com.mycompany.intefaces.IRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -69,7 +69,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
     @Override
     public List<Persona> getAll() throws SQLException {
         
-        String sql = "select * from personas where status<>'Elimado' order by id desc";
+        String sql = "select * from Persona where status<>'Elimado' order by id desc";
         var listaPersona = new ArrayList<Persona>();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             var rs = ps.executeQuery();
@@ -88,7 +88,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
 
     @Override
     public Persona getById(Integer id) throws SQLException {
-        String sql = "select * from personas order where id=?";
+        String sql = "select * from Persona order where id=?";
        
         var persona = new Persona();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

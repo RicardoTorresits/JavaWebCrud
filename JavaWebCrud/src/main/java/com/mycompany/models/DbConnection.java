@@ -19,7 +19,7 @@ public class DbConnection {
     private static DbConnection instance;
     private Connection connection;
     
-    private String username = "TesloDB";
+    private String username = "postgres";
     private String password = "MyScr3tPassWord@as2";
     private static final String URL = "jdbc:postgresql://localhost:5432/Personas";
     
@@ -39,7 +39,7 @@ public class DbConnection {
     
     public Connection getConnection() throws SQLException{
         try {
-            Class.forName("org.postgresql.Drive");
+            Class.forName("org.postgresql.Driver");
             this.connection = DriverManager.getConnection(URL,username,password);
             LOG.info("Conexión a PosttgresSql establecida con éxito");
         } catch (ClassNotFoundException e) {
