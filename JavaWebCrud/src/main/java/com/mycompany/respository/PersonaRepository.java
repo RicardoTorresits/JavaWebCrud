@@ -69,7 +69,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
     @Override
     public List<Persona> getAll() throws SQLException {
         
-        String sql = "select * from Persona where status<>'Elimado' order by id desc";
+        String sql = "select * from \"Persona\" WHERE status<>'Eliminado' order by id desc";
         var listaPersona = new ArrayList<Persona>();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             var rs = ps.executeQuery();
@@ -78,6 +78,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
                 persona.setCorreo(rs.getString("correo"));
                 persona.setNombre(rs.getString("nombre"));
                 persona.setEdad(rs.getInt("edad"));
+                persona.setId(rs.getInt("id"));
                 listaPersona.add(persona);
             }
         }catch (SQLException ex){
@@ -88,7 +89,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
 
     @Override
     public Persona getById(Integer id) throws SQLException {
-        String sql = "select * from Persona order where id=?";
+        String sql = "select * from Persona where id=?";
        
         var persona = new Persona();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -98,6 +99,7 @@ public class  PersonaRepository implements IRepository <Persona,Integer>{
                 persona.setCorreo(rs.getString("correo"));
                 persona.setNombre(rs.getString("nombre"));
                 persona.setEdad(rs.getInt("edad"));
+                persona.setId(rs.getInt("id"));
             }
         }catch (SQLException ex){
              Logger.getLogger(PersonaRepository.class.getName()).log(Level.SEVERE, null, ex);

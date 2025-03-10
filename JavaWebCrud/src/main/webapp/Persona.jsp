@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.example.model.Persona" %>
+<%@ page import="com.mycompany.models.Persona" %>
 
 <html>
 <head>
@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <h1 class="text-center mb-4">Detalle de Persona</h1>
         <%
-            Persona persona = (Persona) session.getAttribute("persona");
+            Persona persona = (Persona) request.getSession().getAttribute("persona");
             if (persona != null) {
         %>
         <div class="card mx-auto" style="max-width: 400px;">
@@ -22,7 +22,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>ID:</strong> <%= persona.getId() %></li>
                     <li class="list-group-item"><strong>Nombre:</strong> <%= persona.getNombre() %></li>
-                    <li class="list-group-item"><strong>Apellido:</strong> <%= persona.getApellido() %></li>
+                    <li class="list-group-item"><strong>Correo:</strong> <%= persona.getCorreo() %></li>
                     <li class="list-group-item"><strong>Edad:</strong> <%= persona.getEdad() %></li>
                 </ul>
             </div>
