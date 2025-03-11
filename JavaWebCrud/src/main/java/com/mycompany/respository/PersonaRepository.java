@@ -57,10 +57,10 @@ public class PersonaRepository implements IRepository<Persona, Integer> {
         String sql = "update \"Persona\" set nombre =?,edad =?,correo =? where id=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, persona.getNombre());
-            ps.setInt(2, persona.getEdad());
+            ps.setInt(2, Integer.valueOf(persona.getEdad()));
             ps.setString(3, persona.getCorreo());
-            ps.setInt(4, persona.getId());
-            ps.execute();
+            ps.setInt(4, Integer.valueOf(persona.getId()));
+            ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(PersonaRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -110,28 +110,22 @@ public class PersonaRepository implements IRepository<Persona, Integer> {
 
     @Override
     public void delete(Integer id) throws SQLException {
-        String sql = "update \"Persona\" set status='Eliminado'where id=? and status='Activo'";
+        String sql = "UPDATE \"Persona\" SET status = 'Eliminado' WHERE id = ? AND status = 'Activo'";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
-            boolean isResultSet = ps.execute();
-            if (isResultSet) {
-                // Si es un ResultSet (no debería serlo en este caso, ya que es un UPDATE)
-                try (ResultSet rs = ps.getResultSet()) {
-                    logger.warning("La consulta devolvió un ResultSet, pero se esperaba una actualización.");
-                }
-            } else {
-                // Si no es un ResultSet, obtener el número de filas afectadas
-                int rowsAffected = ps.getUpdateCount();
 
-                // Registrar el resultado en el log
-                if (rowsAffected > 0) {
-                    logger.info("Se actualizó el estado de la persona con ID " + id + " a 'Eliminado'. Filas afectadas: " + rowsAffected);
-                } else {
-                    logger.info("No se encontró ninguna persona con ID " + id + " y estado 'Activo'.");
-                }
+            // Usar executeUpdate() en lugar de execute() para operaciones de actualización
+            int rowsAffected = ps.executeUpdate();
+
+            // Registrar el resultado en el log
+            if (rowsAffected > 0) {
+                logger.info("Se actualizó el estado de la persona con ID " + id + " a 'Eliminado'. Filas afectadas: " + rowsAffected);
+            } else {
+                logger.log(Level.INFO, "No se encontr\u00f3 ninguna persona con ID {0} y estado ''Activo''.", id);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PersonaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Error al intentar eliminar la persona con ID " + id, ex);
+            throw ex; // Relanzar la excepción para que el llamador pueda manejarla
         }
     }
 }

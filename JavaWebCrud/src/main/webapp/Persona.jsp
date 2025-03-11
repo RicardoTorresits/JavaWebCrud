@@ -106,7 +106,7 @@
                         <button type="button" class="btn btn-primary" onclick="actualizarPersona()">
                             <i class="fas fa-sync-alt me-2"></i>Actualizar
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="eliminarPersona(<%= persona.getId() %>)">
+                        <button type="button" class="btn btn-danger" onclick="eliminarPersona()">
                             <i class="fas fa-trash-alt me-2"></i>Eliminar
                         </button>
                     </div>
@@ -157,10 +157,10 @@
             });
         }
 
-        function eliminarPersona(id) {
+        function eliminarPersona() {
             if (confirm("¿Estás seguro de que deseas eliminar esta persona?")) {
-                fetch(`SvPersona?id=${id}`, {
-                    method: 'DELETE',
+                fetch(`SvPersona?id=${persona.getId()}`, {
+                    method: 'DELETE'
                 })
                 .then(response => {
                     if (response.ok) {
