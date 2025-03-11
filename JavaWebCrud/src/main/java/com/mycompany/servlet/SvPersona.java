@@ -4,6 +4,8 @@
  */
 package com.mycompany.servlet;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mycompany.models.DbConnection;
 import com.mycompany.models.Persona;
 import com.mycompany.respository.PersonaRepository;
@@ -105,20 +107,21 @@ public class SvPersona extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         try (Connection conn = db.getConnection()) {
-            String idstr = "";
-            idstr = req.getParameter("id");
-            int id = Integer.valueOf(idstr);
-            if (idstr != null && !idstr.isEmpty()) {
-            personaRepository.setConn(conn);
-            personaService.setPersonaRepository(personaRepository);
-            String nombre = req.getParameter("nombre");
-            String edad = req.getParameter("edad");
-            String correo = req.getParameter("correo");
-            var user = new Persona(nombre, Integer.parseInt(edad), correo);
-            user.setId(id);
-            personaService.updatePersona(user);
-            response.sendRedirect("SvPersona");
-            }
+                StringBuilder jsonBuilder = new StringBuilder();
+                String line;
+                while ((line = req.getReader().readLine()) != null) {
+                    jsonBuilder.append(line);
+                }
+                String json = jsonBuilder.toString();
+
+                // Convertir JSON a objeto Persona
+                Gson gson = new Gson();
+                Persona persona = gson.fromJson(json, Persona.class);
+                personaRepository.setConn(conn);
+                personaService.setPersonaRepository(personaRepository);
+                personaService.updatePersona(persona);
+                response.sendRedirect("SvPersona");
+            
         } catch (SQLException ex) {
             Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
         }

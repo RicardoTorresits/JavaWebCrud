@@ -136,7 +136,7 @@
                 data[key] = value;
             });
 
-            fetch("SvPersona?id=<%= persona.getId() %>", {
+            fetch("SvPersona", {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -178,4 +178,4 @@
         }
     </script>
 </body>
-</html>
+</html> 
