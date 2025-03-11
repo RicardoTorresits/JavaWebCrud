@@ -99,7 +99,7 @@
                         </li>
                         <li class="list-group-item">
                             <strong>Edad:</strong>
-                            <input type="number" class="form-control mt-2" name="edad" value="<%= persona.getEdad() %>" required>
+                            <input type="number" class="form-control mt-2" name="Edad" value="<%= persona.getEdad() %>" required>
                         </li>
                     </ul>
                     <div class="mt-4 d-flex justify-content-between">
