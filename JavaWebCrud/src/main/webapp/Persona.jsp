@@ -106,7 +106,7 @@
                             <button type="button" class="btn btn-primary" onclick="actualizarPersona()">
                                 <i class="fas fa-sync-alt me-2"></i>Actualizar
                             </button>
-                            <button type="button" class="btn btn-danger" onclick="eliminarPersona()">
+                            <button type="button" class="btn btn-danger" onclick="eliminarPersona(<%= persona.getId()%>)">
                                 <i class="fas fa-trash-alt me-2"></i>Eliminar
                             </button>
                         </div>
@@ -137,8 +137,8 @@
                                     });
 
                                     try {
-                                        const response = await fetch("SvPersona", {
-                                            method: 'PUT',
+                                        const response = await fetch("${pageContext.servletContext.contextPath}/SvPersona2", {
+                                            method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json',
                                             },
@@ -159,10 +159,10 @@
                                     }
                                 }
 
-                                async function eliminarPersona() {
+                                async function eliminarPersona(id) {
                                     if (confirm("¿Estás seguro de que deseas eliminar esta persona?")) {
                                         try {
-                                            const response = await fetch(`SvPersona?id=${persona.getId()}`, {
+                                            const response = await fetch(`SvPersona?id=`+id, {
                                                 method: 'DELETE'
                                             });
 

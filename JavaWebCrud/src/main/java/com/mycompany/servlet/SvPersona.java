@@ -106,25 +106,7 @@ public class SvPersona extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
-        try (Connection conn = db.getConnection()) {
-                StringBuilder jsonBuilder = new StringBuilder();
-                String line;
-                while ((line = req.getReader().readLine()) != null) {
-                    jsonBuilder.append(line);
-                }
-                String json = jsonBuilder.toString();
-
-                // Convertir JSON a objeto Persona
-                Gson gson = new Gson();
-                Persona persona = gson.fromJson(json, Persona.class);
-                personaRepository.setConn(conn);
-                personaService.setPersonaRepository(personaRepository);
-                personaService.updatePersona(persona);
-                response.sendRedirect("SvPersona");
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     @Override
@@ -141,6 +123,16 @@ public class SvPersona extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(SvPersona.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        if (req.getMethod().equalsIgnoreCase("PUT")) {
+            super.doPut(req, response);
+        } else {
+            super.service(req, response);
+        }
+
     }
 
 }
